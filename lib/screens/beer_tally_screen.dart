@@ -16,35 +16,23 @@ final currentModeProvider = StateProvider<ECurrentMode>(
 class BeerTallyScreen extends ConsumerWidget {
   const BeerTallyScreen({super.key});
 
-  // For testing purposes
-  List<BeerRowListNotifier> _generateRows() {
-    List<BeerRowListNotifier> current = [];
-    current.add(BeerRowListNotifier(0, 10));
-    current.add(BeerRowListNotifier(1, 0, emptySince: DateTime.now()));
-    current.add(BeerRowListNotifier(2, 20));
-    current.add(BeerRowListNotifier(3, 60));
-    current.add(BeerRowListNotifier(4, 100));
-    return current;
+  String _getText(ECurrentMode mode) {
+    switch (mode) {
+      case ECurrentMode.refillMode:
+        return "Total refilled: ";
+      case ECurrentMode.updateMode:
+        return "Total grabbed: ";
+      default:
+        return "Ruysdaelkade";
+    }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final beerRowList = BeerRowList(_generateRows());
-
-    String getText(ECurrentMode mode) {
-      switch (mode) {
-        case ECurrentMode.refillMode:
-          return "Total refilled: ";
-        case ECurrentMode.updateMode:
-          return "Total grabbed: ";
-        default:
-          return "Ruysdaelkade";
-      }
-    }
-
+    final beerRows = ref.watch(beerRowProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text(getText(ref.watch(currentModeProvider))),
+        title: Text(_getText(ref.watch(currentModeProvider))),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -53,14 +41,18 @@ class BeerTallyScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // TODO: make nothing here yet message better
-              if (beerRowList.beerRows.isEmpty)
+              if (beerRows.isEmpty)
                 const Center(
                   child: Text("Nothing here yet!"),
                 ),
-              for (int i = 0; i < beerRowList.beerRows.length; i++)
+              for (int i = 0; i < beerRows.length; i++)
                 SizedBox(
                     height: 100,
-                    child: TallyRow(rowNotifier: beerRowList.beerRows[i])),
+                    child: TallyRow(
+                      id: i,
+                      beers: beerRows[i].beers,
+                      emptySince: beerRows[i].emptySince,
+                    )),
               // Sizedbox so last row is never hidden behind FAB
               const SizedBox(
                 height: 30,
