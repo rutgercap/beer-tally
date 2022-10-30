@@ -61,10 +61,6 @@ final beerRowProvider =
     const IBeerRow(id: 0, beers: 10),
     const IBeerRow(id: 1, beers: 100),
     IBeerRow(id: 2, beers: 0, emptySince: DateTime.now()),
-    IBeerRow(
-        id: 2,
-        beers: 0,
-        emptySince: DateTime.now().subtract(Duration(days: 2))),
     const IBeerRow(id: 3, beers: 20),
     const IBeerRow(id: 4, beers: 60),
     const IBeerRow(id: 5, beers: 80),

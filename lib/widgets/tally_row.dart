@@ -3,17 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-class OutOfBeers extends StatelessWidget {
-  const OutOfBeers({super.key, required this.emptySince});
-  final DateTime emptySince;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-        "Out of beers since: ${emptySince.toString().substring(0, 10)}");
-  }
-}
-
 class FiveBeerIconSet extends StatelessWidget {
   const FiveBeerIconSet({super.key, required this.total})
       : assert(total <= 5 && total >= 0);
@@ -88,7 +77,8 @@ class TallyRow extends ConsumerWidget {
           child: Row(
             children: [
               if (beers <= 0 && emptySince != null)
-                OutOfBeers(emptySince: emptySince!),
+                Text(
+                    "Out of beers since: ${emptySince.toString().substring(0, 10)}"),
               for (int i = 0; i < calcRows(); i++)
                 // Always display first maxrows - 1
                 if (i != _maxRows - 1)

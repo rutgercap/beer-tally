@@ -33,6 +33,10 @@ class BeerTallyScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(_getText(ref.watch(currentModeProvider))),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () => print("settings"), icon: Icon(Icons.settings)),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),

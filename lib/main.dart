@@ -1,5 +1,6 @@
 import 'package:beer_tally/screens/beer_tally_screen.dart';
-import 'package:beer_tally/screens/settings_screen.dart';
+import 'package:beer_tally/screens/chores_screen.dart';
+import 'package:beer_tally/screens/settings_modal.dart';
 import 'package:beer_tally/screens/who_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static final List<Widget> _screens = [
     const WhoHomeScreen(),
     BeerTallyScreen(),
-    const SettingsScreen(),
+    ChoreScreen(),
   ];
 
   @override
@@ -69,8 +70,8 @@ class _MyHomePageState extends State<MyHomePage> {
             label: "Beer",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Settings",
+            icon: Icon(Icons.cleaning_services),
+            label: "Chores",
           ),
         ],
         currentIndex: _currentIndex,
