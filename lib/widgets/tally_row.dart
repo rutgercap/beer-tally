@@ -1,3 +1,4 @@
+import 'package:beer_tally/models/beer_row_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -34,12 +35,13 @@ class FiveBeerIconSet extends StatelessWidget {
 }
 
 class TallyRow extends StatelessWidget {
-  TallyRow({super.key, required this.totalBeers});
-  final num totalBeers;
+  TallyRow({super.key, required this.rowNotifier});
+
+  final BeerRowListNotifier rowNotifier;
 
   // TODO: must be a better way to do this
   num beersPerRow(num i) {
-    num beersLeft = totalBeers - (i * 5);
+    num beersLeft = rowNotifier.beers - (i * 5);
     if (beersLeft >= 5) {
       return 5;
     }
@@ -49,7 +51,7 @@ class TallyRow extends StatelessWidget {
   // TODO: make dynamic based on screen size
   final num _maxRows = 8;
   num calcRows() {
-    num rows = (totalBeers / 5).ceil();
+    num rows = (rowNotifier.beers / 5).ceil();
     if (rows > _maxRows) {
       return _maxRows;
     }
@@ -58,7 +60,7 @@ class TallyRow extends StatelessWidget {
 
   num calcExtraBeers() {
     num maxBeers = (_maxRows - 1) * 5;
-    return totalBeers - maxBeers;
+    return rowNotifier.beers - maxBeers;
   }
 
   @override
@@ -100,9 +102,11 @@ class TallyRow extends StatelessWidget {
           child: Row(children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: ElevatedButton(onPressed: ((() => print("clicked"))), child: const Text("Grab")),
+              child: ElevatedButton(
+                  onPressed: ((() => print("clicked"))),
+                  child: const Text("Grab")),
             ),
-            Text("Total: $totalBeers"),
+            Text("Total: ${rowNotifier.beers}"),
           ]),
         )
       ],

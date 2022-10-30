@@ -1,4 +1,6 @@
-import 'package:beer_tally/widget/tally_row.dart';
+import 'package:beer_tally/screens/beer_tally_screen.dart';
+import 'package:beer_tally/screens/settings_screen.dart';
+import 'package:beer_tally/screens/who_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,69 +29,53 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // Routing
+  int _currentIndex = 1;
+  void setIndex(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  static final List<Widget> _screens = [
+    const WhoHomeScreen(),
+    BeerTallyScreen(),
+    const SettingsScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bier met de bitches'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 11,
-                  )),
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 1,
-                  )),
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 3,
-                  )),
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 40,
-                  )),
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 60,
-                  )),
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 60,
-                  )),
-              SizedBox(
-                  height: 100,
-                  child: TallyRow(
-                    totalBeers: 60,
-                  )),
-            ],
+      body: _screens.elementAt(_currentIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black54,
+        backgroundColor: Colors.blue.shade300,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Who be home",
           ),
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.sports_bar),
+            label: "Beer",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
+        ],
+        currentIndex: _currentIndex,
+        onTap: setIndex,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => print("floating"),
-        child: Text("Refill"),
-      ),
-      bottomNavigationBar: BottomNavigationBar(items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.abc_rounded), label: "temp"),
-        BottomNavigationBarItem(icon: Icon(Icons.abc_rounded), label: "temp"),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
-      ]),
     );
   }
 }
